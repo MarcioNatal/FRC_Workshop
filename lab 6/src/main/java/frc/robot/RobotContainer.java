@@ -32,7 +32,8 @@ public class RobotContainer
   public static SwerveSubsystem swerveDrive;
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  public static XboxController driverJoystick;
+  //public static XboxController driverJoystick;
+  public static CommandXboxController driverJoystick;
   
 
    
@@ -46,7 +47,7 @@ public class RobotContainer
     swerveDrive = new SwerveSubsystem();
     
     // Instantiate Xbox Controller
-    driverJoystick= new XboxController(JoystickDriverConstants.kDriverControllerPort);
+    driverJoystick= new CommandXboxController(JoystickDriverConstants.kDriverControllerPort);
     
     
     configureBindings();
@@ -62,7 +63,7 @@ public class RobotContainer
                                       ( ()->-driverJoystick.getLeftY(),
                                         ()->-driverJoystick.getLeftX(),
                                         ()->-driverJoystick.getRightX(),
-                                        ()->!driverJoystick.getAButton()
+                                        ()->!driverJoystick.getHID().getAButton()
                                       ), 
                                       swerveDrive
                                     )
@@ -83,24 +84,31 @@ public class RobotContainer
   private void configureBindings() 
   {
     //X positions of the Wheels 
-    new JoystickButton(driverJoystick, Button.kX.value).whileTrue(new RunCommand(() -> swerveDrive.setX(),swerveDrive));
+    //new JoystickButton(driverJoystick, Button.kX.value).whileTrue(new RunCommand(() -> swerveDrive.setX(),swerveDrive));
+    driverJoystick.x().whileTrue(new RunCommand(() -> swerveDrive.setX(),swerveDrive));
     
     ///*Zeroing NavX2 It changes robot heading*/
-     JoystickButton robotChangeHeading = new JoystickButton (driverJoystick,XboxController.Button.kStart.value); 
-     robotChangeHeading.onTrue(new InstantCommand(swerveDrive::zeroHeading)); //reset gyroscope  
+     //JoystickButton robotChangeHeading = new JoystickButton (driverJoystick,XboxController.Button.kStart.value); 
+     //robotChangeHeading.onTrue(new InstantCommand(swerveDrive::zeroHeading)); //reset gyroscope  
+
+     driverJoystick.start().onTrue(new InstantCommand(swerveDrive::zeroHeading));
      
 
      ///*Changes robot speed - slowing down
-     JoystickButton throttle1 = new JoystickButton (driverJoystick,XboxController.Button.kLeftBumper.value); 
-     throttle1.onTrue(new InstantCommand(swerveDrive::robotSlower)); 
+     //JoystickButton throttle1 = new JoystickButton (driverJoystick,XboxController.Button.kLeftBumper.value); 
+     //throttle1.onTrue(new InstantCommand(swerveDrive::robotSlower)); 
+
+     driverJoystick.leftBumper().onTrue(new InstantCommand(swerveDrive::robotSlower)); 
+     driverJoystick.rightBumper().onTrue(new InstantCommand(swerveDrive::robotFast)); 
+     driverJoystick.b().onTrue(new InstantCommand(swerveDrive::robotMaxSpeed)); 
      
         
      ///*Changes robot speed - speeding up
-     JoystickButton throttle2 = new JoystickButton (driverJoystick,XboxController.Button.kRightBumper.value); 
+     /*JoystickButton throttle2 = new JoystickButton (driverJoystick,XboxController.Button.kRightBumper.value); 
      throttle2.onTrue(new InstantCommand(swerveDrive::robotFast)); 
 
      JoystickButton throttleMax = new JoystickButton (driverJoystick,XboxController.Button.kB.value); 
-     throttleMax.onTrue(new InstantCommand(swerveDrive::robotMaxSpeed)); 
+     throttleMax.onTrue(new InstantCommand(swerveDrive::robotMaxSpeed)); */
      
      
 

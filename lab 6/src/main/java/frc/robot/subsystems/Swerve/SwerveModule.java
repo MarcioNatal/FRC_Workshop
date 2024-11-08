@@ -119,31 +119,58 @@ public class SwerveModule extends SubsystemBase
 
     this.m_desiredState = new SwerveModuleState(0.0, new Rotation2d());
 
-    /**
-     * Set motors limits
-     */
     
+    /**
+   * Config angle motors
+   * https://docs.revrobotics.com/brushless/neo/v1.1#motor-specifications
+   * @category turning motor SparkMax settings 
+   */
+  
+    turningMotor.restoreFactoryDefaults();
 
+    turningMotor.setIdleMode(ModuleConstants.kTurningMotorIdleMode);
+    turningMotor.setSmartCurrentLimit(ModuleConstants.kTurningMotorCurrentLimit);
+    
     //1. Setup encoders and PID controllers for the turning SPARKS MAX.
     turningEncoder = turningMotor.getEncoder();  
     turningPidController = turningMotor.getPIDController(); 
     turningPidController.setFeedbackDevice(turningEncoder); 
     
-    //2.Config devices
-    
-    canCoderConfigs();
-    configTurningMotor();
-    configDriveMotor();
-
-    //3.Apply position and velocity conversion factors for the turning encoder. We
-    // want these in radians and radians per second to use with WPILib's swerve
-    // APIs.
-    //17/10/2024 MNL alterado o fator de conversão
     turningEncoder.setPositionConversionFactor(ModuleConstants.kTurningEncoderRot2Rad);//radian
     turningEncoder.setVelocityConversionFactor(ModuleConstants.kTurningEncoderVelocityFactor);//radian/s
     
-    //4.Calls PID Controllers
-    turningPidControllerGains();
+
+    /**
+   * Tunning SparkMax PIDController
+   * @see https://docs.revrobotics.com/brushless/revlib/closed-loop-control-overview/position-control-mode
+   * 
+   */
+    // Enable PID wrap around for the turning motor. This will allow the PID
+    // controller to go through 0 to get to the setpoint i.e. going from 350 degrees
+    // to 10 degrees will go through 0 rather than the other direction which is a
+    // longer route.
+    
+    turningPidController.setPositionPIDWrappingEnabled(true);
+    turningPidController.setPositionPIDWrappingMinInput(ModuleConstants.kTurningEncoderPositionPIDMinInput);
+    turningPidController.setPositionPIDWrappingMaxInput(ModuleConstants.kTurningEncoderPositionPIDMaxInput);
+    
+    // Set the PID gains for the turning motor. Note these are example gains, and you
+    // may need to tune them for your own robot!
+    turningPidController.setP(ModuleConstants.kPTurning,pidSparkSlot);
+    turningPidController.setI(ModuleConstants.kITurning,pidSparkSlot);
+    turningPidController.setD(ModuleConstants.kDTurning,pidSparkSlot);
+    turningPidController.setFF(ModuleConstants.kTurningFF,pidSparkSlot);//This is a velocity feed-forward. This is unique to each type of motor, 
+                                                                        //and can be calculated by taking the reciprocal of the motor's velocity 
+                                                                        //constant (Kv), in other words 1/Kv.
+    turningPidController.setOutputRange(ModuleConstants.kTurningMinOutput,
+                                        ModuleConstants.kTurningMaxOutput,pidSparkSlot);
+    turningMotor.burnFlash();
+    
+    
+    canCoderConfigs();
+    
+    configDriveMotor();
+   
     drivingPidControllerGains();
 
     //5. Initialize chassi offset value   
@@ -234,19 +261,11 @@ public class SwerveModule extends SubsystemBase
   }
 
   
-  /**
-   * Config angle motors
-   * https://docs.revrobotics.com/brushless/neo/v1.1#motor-specifications
-   * @category turning motor SparkMax settings 
-   */
+  
   public void configTurningMotor()
   {
 
-    turningMotor.restoreFactoryDefaults();
-    turningMotor.setIdleMode(ModuleConstants.kTurningMotorIdleMode);
-    turningMotor.setSmartCurrentLimit(ModuleConstants.kTurningMotorCurrentLimit);
     
-    turningMotor.burnFlash();
     
 
   }
@@ -317,33 +336,10 @@ public class SwerveModule extends SubsystemBase
  
   }
 
-  /**
-   * Tunning SparkMax PIDController
-   * @see https://docs.revrobotics.com/brushless/revlib/closed-loop-control-overview/position-control-mode
-   * 
-   */
+  
 
   public void turningPidControllerGains()
   {
-    // Enable PID wrap around for the turning motor. This will allow the PID
-    // controller to go through 0 to get to the setpoint i.e. going from 350 degrees
-    // to 10 degrees will go through 0 rather than the other direction which is a
-    // longer route.
-    
-
-    turningPidController.setPositionPIDWrappingEnabled(true);
-    turningPidController.setPositionPIDWrappingMinInput(ModuleConstants.kTurningEncoderPositionPIDMinInput);
-    turningPidController.setPositionPIDWrappingMaxInput(ModuleConstants.kTurningEncoderPositionPIDMaxInput);
-    // Set the PID gains for the turning motor. Note these are example gains, and you
-    // may need to tune them for your own robot!
-    turningPidController.setP(ModuleConstants.kPTurning,pidSparkSlot);
-    turningPidController.setI(ModuleConstants.kITurning,pidSparkSlot);
-    turningPidController.setD(ModuleConstants.kDTurning,pidSparkSlot);
-    turningPidController.setFF(ModuleConstants.kTurningFF,pidSparkSlot); //This is a velocity feed-forward. This is unique to each type of motor, 
-                                                            //and can be calculated by taking the reciprocal of the motor's velocity 
-                                                            //constant (Kv), in other words 1/Kv.
-    turningPidController.setOutputRange(ModuleConstants.kTurningMinOutput,
-                                        ModuleConstants.kTurningMaxOutput,pidSparkSlot);
     
 
   }
