@@ -60,5 +60,11 @@
     
     	- constates relacionadas aos cálculos da odometria.
 
+# Lab7: Autonomous Trajetória para Swerve
 
+-> Criar um comando sequencial
+
+ 	- Criar modelos de trajetória para autonomous
+  
+   	- Criar Sendable Chooser no Robot Container para selecionar o autonomous na SuffleBoard
 
