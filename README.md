@@ -8,7 +8,7 @@ Lab1: Motor REV controlado por eixo de Joystick
 -> Instalação biblioteca REV
 -> Criando constantes na classe
 -> Criando subsystem
--> Criando Joystick
+-> Criando Joystick.
 
 Lab2: Motor REV controlado por botões e por eixo de Joystick
 
