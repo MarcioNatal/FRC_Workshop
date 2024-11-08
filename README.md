@@ -1,6 +1,6 @@
 # FRC_Workshop
 
-Lab1: Motor REV controlado por eixo de Joystick
+# Lab1: Motor REV controlado por eixo de Joystick
 
 -> Teoria de framework
 
@@ -17,7 +17,7 @@ Lab1: Motor REV controlado por eixo de Joystick
 -> Criando Joystick.
 
 
-Lab2: Motor REV controlado por botões e por eixo de Joystick
+# Lab2: Motor REV controlado por botões e por eixo de Joystick
 
 -> Criação de comandos
 
@@ -28,27 +28,37 @@ Lab2: Motor REV controlado por botões e por eixo de Joystick
 -> Enviando mensagens para a DriverStation no formato de Logs
 
 
-Lab3: Motor REV controlado por botão em uma velocidade desejada PID degrau
+# Lab3: Motor REV controlado por botão em uma velocidade desejada PID degrau
 
 -> PID de posicao pelo RoboRio disparado por botão e período padrão 20mS
 
 	-> Extra KP e Posição ajustado via SmartDashboard;
  
 
-Lab4: Motor REV controlado por botão em uma velocidade desejada PID trapezoidal
+# Lab4: Motor REV controlado por botão em uma velocidade desejada PID trapezoidal
 
 -> PID trapezoidal de posicao pelo RoboRio disparado por botão e período padrão 20mS, Velocidade máxima e aceleração
 
 	-> Extra KP e Posição ajustado via SmartDashboard;
  
 
-Lab5: Motor REV configurado para PID no SPark controle de velocidade e de posição.
+# Lab5: Motor REV configurado para PID no SPark controle de velocidade e de posição.
 
 -> PID declarado por Slot
 
-Lab6: Template para Swerve usando motores Kraken para tração e NEO para turning, CanCoder no turning e NavX.
+# Lab6: Template para Swerve usando motores Kraken para tração e NEO para turning, CanCoder no turning e NavX.
 
 -> Controle por joystick
+
+-> Antes de usar o template é necessário atualizar:
+	
+ 	- a cinemática do robô, 
+  
+  	- redução dos motores, 
+   
+   	- offset dos cancoders e 
+    
+    	- constates relacionadas aos cálculos da odometria.
 
 
 
