@@ -49,6 +49,7 @@ Lab5: Motor REV configurado para PID no SPark controle de velocidade e de posiç
 Lab6: Template para Swerve usando motores Kraken para tração e NEO para turning, CanCoder no turning e NavX.
 
 -> Controle por joystick
+-> Antes de usar o template é necessário atualizar a cinemática do robô, redução dos motores, offset dos cancoders e constates relacionadas aos cálculos da odometria.
 
 
 
