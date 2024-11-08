@@ -23,3 +23,11 @@ Lab4: Motor REV controlado por botão em uma velocidade desejada PID trapezoidal
 -> PID trapezoidal de posicao pelo RoboRio disparado por botão e período padrão 20mS, Velocidade máxima e aceleração
 	-> Extra KP e Posição ajustado via SmartDashboard;
 
+Lab5: Motor REV configurado para PID no SPark controle de velocidade e de posição.
+-> PID declarado por Slot
+
+Lab6: Template para Swerve usando motores Kraken para tração e NEO para turning, CanCoder no turning e NavX.
+-> Controle por joystick
+
+
+
