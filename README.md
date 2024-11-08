@@ -1,4 +1,4 @@
-# FRC_Mega
+# FRC_Workshop
 
 Lab1: Motor REV controlado por eixo de Joystick
 
