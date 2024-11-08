@@ -32,6 +32,7 @@ Lab5: Motor REV configurado para PID no SPark controle de velocidade e de posiç
 -> PID declarado por Slot
 
 Lab6: Template para Swerve usando motores Kraken para tração e NEO para turning, CanCoder no turning e NavX.
+
 -> Controle por joystick
 
 
