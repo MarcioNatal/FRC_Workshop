@@ -82,7 +82,7 @@
 
 # Lab9: ProfilePID Trapezoidal
 
--> Criar dois comandos que usam mesmos subsitemas
+-> Criar dois comandos que usam mesmos subsistemas
 
 -> Dois motores acionados e com controle trapezoidal
 
