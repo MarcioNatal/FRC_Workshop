@@ -162,12 +162,12 @@ public class SwerveSubsystem extends SubsystemBase
   
     for (int i = 0; i < modules.length; i++) 
     {
-      SmartDashboard.putNumber("Module " + i + " Drive Motor Current (Amp)", modules[i].getDriveCurrent());
-      SmartDashboard.putNumber("Module " + i + " Drive Motor Temperature (℃)", modules[i].getDriveTemperature());
-      SmartDashboard.putNumber("Module " + i + " Turning Motor Heading (Degrees)", modules[i].getTurningHeadingDegrees());
-      SmartDashboard.putNumber("Module " + i + " CanCoder Heading (rad)", modules[i].canCoderRad());
-      SmartDashboard.putNumber("Module " + i + " CanCoder Heading (Degrees)", modules[i].canCoderDegrees());
-      SmartDashboard.putNumber("Module " + i + " CanCoder Angle value (rad)", modules[i].getTurningPosition());
+      SmartDashboard.putNumber("Module " + i + " /Drive Motor Current (Amp)", modules[i].getDriveCurrent());
+      SmartDashboard.putNumber("Module " + i + " /Drive Motor Temperature (℃)", modules[i].getDriveTemperature());
+      SmartDashboard.putNumber("Module " + i + " /Turning Motor Heading (Degrees)", modules[i].getTurningHeadingDegrees());
+      SmartDashboard.putNumber("Module " + i + " /CanCoder Heading (rad)", modules[i].canCoderRad());
+      SmartDashboard.putNumber("Module " + i + " /CanCoder Heading (Degrees)", modules[i].canCoderDegrees());
+      SmartDashboard.putNumber("Module " + i + " /CanCoder Angle value (rad)", modules[i].getTurningPosition());
   
        if (!modules[i].getCanCoderIsValid())
        {
@@ -181,8 +181,8 @@ public class SwerveSubsystem extends SubsystemBase
     SwerveModuleState[] moduleStates = getModuleStates();
     for (int i = 0; i < moduleStates.length; i++) 
     {
-      SmartDashboard.putNumber("Module " + i + " Speed (m/s)", moduleStates[i].speedMetersPerSecond);
-      SmartDashboard.putNumber("Module " + i + " Angle (rad)", moduleStates[i].angle.getRadians());
+      SmartDashboard.putNumber("Module " + i + " /Speed (m/s)", moduleStates[i].speedMetersPerSecond);
+      SmartDashboard.putNumber("Module " + i + " /Angle (rad)", moduleStates[i].angle.getRadians());
 
      
       
@@ -399,7 +399,7 @@ public class SwerveSubsystem extends SubsystemBase
    * Method drive with joystick
    * The use of these parameters as suppliers to dynamically provide speed and field orientation values.
    * Suppliers are especially useful in cases where you need to calculate values dynamically based on factors that can change over time.
-   * The Supplier interface gives you a powerful mechanism to make your FRC robot code more flexible and adaptable. 
+   * he Supplier interface gives you a powerful mechanism to make your FRC robot code more flexible and adaptabTle. 
    * Suppliers are incredibly useful in command-based FRC programming because they allow you to:
    * Decouple Logic: You can separate the logic for calculating drive parameters (speeds, orientation) 
    * from the actual drive command. This makes your code cleaner and more maintainable.

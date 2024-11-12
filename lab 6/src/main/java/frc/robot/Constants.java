@@ -126,7 +126,7 @@ import edu.wpi.first.math.util.Units;
       // Distance between front and back wheels
       public static final double kDriveRadius = Math.hypot(kTrackWidth/2, kWheelBase/2);
       // Distance from robot center to furthest module.
-      public static final double parametro = 2;
+     
 
       /**********************************************************************
        * Swerve Drive Object - It specifies the location of each swerve     *

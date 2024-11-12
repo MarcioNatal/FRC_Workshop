@@ -74,12 +74,12 @@ import edu.wpi.first.math.util.Units;
        * @category Drive Motor Characterization Values From SYSID 
        * TO DO: This must be tuned to specific robot
        * ************************************************************/
-      public static final double driveKS = 1.42;//<-MNL 11/11/2024 0.1; //0.32;  // Add 0.1 V output to overcome static friction
+      public static final double driveKS = 0.1;//<-MNL 11/11/2024 0.1; //0.32;  // Add 0.1 V output to overcome static friction
       public static final double driveKV = 0.12; //1.51; // A velocity target of 1 rps results in 0.12 V output
       public static final double driveKA = 0.11;  //0.27;
 
         //11,69%
-      public static final double kPdriving = 0.18;//<--MNL11/11/2024 0.0665;//ANTERIOR 0,0665 ; 0.05872615 // kP = 0.11 An error of 1 rps results in 0.11 V output
+      public static final double kPdriving = 0.0665;//<--MNL11/11/2024 0.0665;//ANTERIOR 0,0665 ; 0.05872615 // kP = 0.11 An error of 1 rps results in 0.11 V output
       public static final double kIdriving =0.0;
       public static final double kDdriving=0.0;
       

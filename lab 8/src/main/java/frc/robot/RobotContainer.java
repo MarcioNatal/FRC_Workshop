@@ -65,13 +65,14 @@ public class RobotContainer
     
     // Instantiate Xbox Controller
     driverJoystick= new CommandXboxController(JoystickDriverConstants.kDriverControllerPort);
+     //Add to choices to smart dashboard
+    SmartDashboard.putData("Autonomous", chooserAuto);
     
     //Default option
     chooserAuto.setDefaultOption("Autonomous 1", autoMundoSenai);
     chooserAuto.addOption("Autonomous 2", autoQuadrado);
 
-    //Add to choices to smart dashboard
-    SmartDashboard.putData("Autonomous", chooserAuto);
+   
 
     configureBindings();
 
