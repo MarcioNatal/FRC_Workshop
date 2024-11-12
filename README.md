@@ -86,6 +86,10 @@
 
 -> Dois motores acionados e com controle trapezoidal
 
+# Lab10: Auto Path - PathPlanner
+
+-> Criar autonomous usando o pathplanner
+
 
 
 
