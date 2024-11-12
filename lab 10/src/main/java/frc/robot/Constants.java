@@ -266,13 +266,13 @@ import edu.wpi.first.math.util.Units;
         
         public static final int kDriverYAxis = 1;
         public static final int kDriverXAxis = 0;
-        public static final int kDriverRotAxis = 4;
+        //public static final int kDriverRotAxis = 4;
         public static final int kDriverFieldOrientedButtonIdx = 1;
         
         public static final double kDeadband = 0.1;// 0.05 anterior
 
-        public static final int kRumbleOn = 1;
-        public static final int kRumbleOff = 0;
+        //public static final int kRumbleOn = 1;
+        //public static final int kRumbleOff = 0;
       
       }
 
