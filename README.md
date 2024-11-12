@@ -68,5 +68,16 @@
   
    	- Criar Sendable Chooser no Robot Container para selecionar o autonomous na SuffleBoard
 
-    	- Precisa testar o programa
+    	- Movimentação da trajetória somente no eixo frente/tras
+
+# Lab8: Autonomous Trajetória para Swerve
+
+-> Criar um comando sequencial
+
+ 	- Criar dois modelos de trajetória para autonomous
+  
+   	- Criar Sendable Chooser no Robot Container para selecionar o autonomous na SuffleBoard
+
+    	- Dois autonomous para movimentação do swerve
+     
 
