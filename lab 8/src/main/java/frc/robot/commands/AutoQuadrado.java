@@ -31,12 +31,12 @@ import frc.robot.subsystems.Swerve.SwerveSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutoMundoSenai extends SequentialCommandGroup 
+public class AutoQuadrado extends SequentialCommandGroup 
 {
  public SwerveSubsystem drive = RobotContainer.swerveDrive;
 
   /** Creates a new AutoMundoSenai. */
-  public AutoMundoSenai( ) 
+  public AutoQuadrado( ) 
   {
 
     /******************************************************************************
@@ -70,40 +70,43 @@ public class AutoMundoSenai extends SequentialCommandGroup
                 // Start at the origin facing the +X direction
                 new Pose2d(0, 0, new Rotation2d(0)),
                 // Pass through these two interior waypoints, making an 's' curve path
-                List.of(new Translation2d(-Units.feetToMeters(2), -.05)), 
+                //List.of(new Translation2d(-Units.feetToMeters(2), -.05)), 
+                  List.of(new Translation2d(-0.5, -.05)), 
                 // End 3 meters straight ahead of where we started, facing forward
-                new Pose2d(-Units.feetToMeters(4), 0, new Rotation2d(Units.degreesToRadians(180))),
+                //new Pose2d(-Units.feetToMeters(4), 0, new Rotation2d(Units.degreesToRadians(180))),
+                new Pose2d(-1.0, 0, new Rotation2d(Units.degreesToRadians(0))),
                 config);
 
     Trajectory StrafeCurve =
         TrajectoryGenerator.generateTrajectory(
               // Start at the origin facing the +X direction
-              new Pose2d(-Units.feetToMeters(4), 0, new Rotation2d(Units.degreesToRadians(180))),
-
+              //new Pose2d(-Units.feetToMeters(4), 0, new Rotation2d(Units.degreesToRadians(180))),
+              new Pose2d(-1.0, -1.0, new Rotation2d(Units.degreesToRadians(0))),         
               // Pass through these two interior waypoints, making an 's' curve path
-              List.of(new Translation2d(-Units.feetToMeters(2), .05)), 
+              //List.of(new Translation2d(-Units.feetToMeters(2), .05)), 
+              List.of(new Translation2d(-0.5, -1.05)), 
               // End 3 meters straight ahead of where we started, facing forward
-              new Pose2d(0, 0, new Rotation2d(0)),
+              new Pose2d(0, -1.0, new Rotation2d(0)),
               config);
               
     // An example trajectory to follow.  All units in meters.
     Trajectory GoStraight2 =
         TrajectoryGenerator.generateTrajectory(
                 // Start at the origin facing the +X direction
-                new Pose2d(0, 0, new Rotation2d(0)),
+                new Pose2d(-1.0, 0, new Rotation2d(0)),
                 // Pass through these two interior waypoints, making an 's' curve path
-                List.of(new Translation2d(-Units.feetToMeters(3), -.05)), 
+                List.of(new Translation2d(-1.05, -.5)), 
                 // End 3 meters straight ahead of where we started, facing forward
-                new Pose2d(-Units.feetToMeters(5), 0, new Rotation2d(Units.degreesToRadians(180))),
+                new Pose2d(-1.0, -1, new Rotation2d(Units.degreesToRadians(0))),
                 config);
 
     Trajectory StrafeCurve2 =
     TrajectoryGenerator.generateTrajectory(
             // Start at the origin facing the +X direction
-            new Pose2d(-Units.feetToMeters(5), 0, new Rotation2d(Units.degreesToRadians(180))),
+            new Pose2d(-0.0, -1.0, new Rotation2d(Units.degreesToRadians(0))),
 
             // Pass through these two interior waypoints, making an 's' curve path
-            List.of(new Translation2d(-Units.feetToMeters(3), .05)), 
+            List.of(new Translation2d(-0.05, -0.5)), 
             // End 3 meters straight ahead of where we started, facing forward
             new Pose2d(0, 0, new Rotation2d(0)),
             config);
@@ -174,21 +177,20 @@ public class AutoMundoSenai extends SequentialCommandGroup
            
             new WaitCommand(0.1),
             new InstantCommand(drive::stopModules),
+            goStraight2,  
             
-                       
-            strafeCurve
         
-       /* 
+        
             new WaitCommand(0.1),
             new InstantCommand(drive::stopModules),
+            strafeCurve,
+            //new InstantCommand(() -> drive.resetOdometry(GoStraight2.getInitialPose())),
             
-            new InstantCommand(() -> drive.resetOdometry(GoStraight2.getInitialPose())),
-            goStraight2,
             
-            new WaitCommand(0.1),
+           new WaitCommand(0.1),
             new InstantCommand(drive::stopModules),
            
-            strafeCurve2*/
+            strafeCurve2
 
     );
   }

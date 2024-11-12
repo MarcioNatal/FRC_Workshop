@@ -70,18 +70,21 @@ public class AutoMundoSenai extends SequentialCommandGroup
                 // Start at the origin facing the +X direction
                 new Pose2d(0, 0, new Rotation2d(0)),
                 // Pass through these two interior waypoints, making an 's' curve path
-                List.of(new Translation2d(-Units.feetToMeters(2), -.05)), 
+                //List.of(new Translation2d(-Units.feetToMeters(2), -.05)), 
+                  List.of(new Translation2d(-0.5, -.05)), 
                 // End 3 meters straight ahead of where we started, facing forward
-                new Pose2d(-Units.feetToMeters(4), 0, new Rotation2d(Units.degreesToRadians(180))),
+                //new Pose2d(-Units.feetToMeters(4), 0, new Rotation2d(Units.degreesToRadians(180))),
+                new Pose2d(-1.0, 0, new Rotation2d(Units.degreesToRadians(0))),
                 config);
 
     Trajectory StrafeCurve =
         TrajectoryGenerator.generateTrajectory(
               // Start at the origin facing the +X direction
-              new Pose2d(-Units.feetToMeters(4), 0, new Rotation2d(Units.degreesToRadians(180))),
-
+              //new Pose2d(-Units.feetToMeters(4), 0, new Rotation2d(Units.degreesToRadians(180))),
+              new Pose2d(-1.0, 0, new Rotation2d(Units.degreesToRadians(0))),         
               // Pass through these two interior waypoints, making an 's' curve path
-              List.of(new Translation2d(-Units.feetToMeters(2), .05)), 
+              //List.of(new Translation2d(-Units.feetToMeters(2), .05)), 
+              List.of(new Translation2d(-0.5, .05)), 
               // End 3 meters straight ahead of where we started, facing forward
               new Pose2d(0, 0, new Rotation2d(0)),
               config);

@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 //LOCAL Imports
 import frc.robot.Constants.OIConstants.JoystickDriverConstants;
 import frc.robot.commands.AutoMundoSenai;
+import frc.robot.commands.AutoQuadrado;
 import frc.robot.subsystems.Swerve.SwerveSubsystem;
 
 /**
@@ -33,6 +34,7 @@ public class RobotContainer
   // The robot's subsystems and commands are defined here...
   public static SwerveSubsystem swerveDrive = new SwerveSubsystem();
   public static AutoMundoSenai autoMundoSenai = new AutoMundoSenai();
+  public static AutoQuadrado autoQuadrado = new AutoQuadrado();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   //public static XboxController driverJoystick;
@@ -59,13 +61,14 @@ public class RobotContainer
     //Instantiate commands
 
     autoMundoSenai.addRequirements(swerveDrive);
+    autoQuadrado.addRequirements(swerveDrive);
     
     // Instantiate Xbox Controller
     driverJoystick= new CommandXboxController(JoystickDriverConstants.kDriverControllerPort);
     
     //Default option
-    //chooserAuto.setDefaultOption("Autonomous 1", autoMundoSenai);
-    chooserAuto.addOption("Autonomous 2", autoMundoSenai);
+    chooserAuto.setDefaultOption("Autonomous 1", autoMundoSenai);
+    chooserAuto.addOption("Autonomous 2", autoQuadrado);
 
     //Add to choices to smart dashboard
     SmartDashboard.putData("Autonomous", chooserAuto);
