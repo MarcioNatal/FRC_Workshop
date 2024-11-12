@@ -79,5 +79,13 @@
    	- Criar Sendable Chooser no Robot Container para selecionar o autonomous na SuffleBoard
 
     	- Dois autonomous para movimentação do swerve
-     
+
+# Lab9: ProfilePID Trapezoidal
+
+-> Criar dois comandos que usam mesmos subsitemas
+
+-> Dois motores acionados e com controle trapezoidal
+
+
+
 
