@@ -70,7 +70,7 @@
 
     	- Movimentação da trajetória somente no eixo frente/tras
 
-# Lab8: Autonomous Trajetória para Swerve
+# Lab8: Autonomous Trajetória para Swerve e Sendable chooser para seleção
 
 -> Criar um comando sequencial
 
