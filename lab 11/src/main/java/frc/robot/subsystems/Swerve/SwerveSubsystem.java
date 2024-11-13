@@ -19,10 +19,13 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 
 //LOCAL Imports
@@ -30,6 +33,7 @@ import frc.robot.Constants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.subsystems.Limelight.LimelightHelpers;
 
 
 public class SwerveSubsystem extends SubsystemBase 
@@ -98,7 +102,22 @@ public class SwerveSubsystem extends SubsystemBase
   private boolean throttleSlow=false;
   private boolean throttleFast=false;
   private boolean throttleMax=false;
-  
+
+  /* Here we use SwerveDrivePoseEstimator so that we can fuse odometry readings. The numbers used
+  below are robot specific, and should be tuned. */
+  private final SwerveDrivePoseEstimator m_poseEstimator =
+                new SwerveDrivePoseEstimator(
+                    DriveConstants.kDriveKinematics,
+                    gyro.getRotation2d(),
+                    new SwerveModulePosition[] {
+                      frontLeftModule.getPosition(),
+                      frontRightModule.getPosition(),
+                      backLeftModule.getPosition(),
+                      backRightModule.getPosition()
+                    },
+                    new Pose2d(),
+                    VecBuilder.fill(0.05, 0.05, Units.degreesToRadians(5)),
+                    VecBuilder.fill(0.5, 0.5, Units.degreesToRadians(30)));
 
   public SwerveSubsystem() 
   {
@@ -174,7 +193,7 @@ public class SwerveSubsystem extends SubsystemBase
   {
     // This method will be called once per scheduler run
         
-    odometer.update(gyro.getRotation2d(), //(getGyroYaw()) , gyro.getYaw()
+    /*odometer.update(gyro.getRotation2d(), //(getGyroYaw()) , gyro.getYaw()
                     new SwerveModulePosition[] 
                     {
                       frontLeftModule.getPosition(),
@@ -182,8 +201,9 @@ public class SwerveSubsystem extends SubsystemBase
                       backLeftModule.getPosition(),
                       backRightModule.getPosition()
                     }
-                    );
+                    );*/
 
+    this.updateOdometry();
   
     SmartDashboard.putNumber("Chassis /Pose X (meters)", this.getPose().getX());
     SmartDashboard.putNumber("Chassis /Pose Y (meters)", this.getPose().getY());
@@ -299,6 +319,82 @@ public class SwerveSubsystem extends SubsystemBase
                                           pose);
 }
 
+  /** Updates the field relative position of the robot. */
+  public void updateOdometry() 
+  {
+    m_poseEstimator.update(
+        gyro.getRotation2d(),
+        new SwerveModulePosition[]
+        {
+          frontLeftModule.getPosition(),
+          frontRightModule.getPosition(),
+          backLeftModule.getPosition(),
+          backRightModule.getPosition()
+        });
+
+    boolean useMegaTag2 = false; //set to false to use MegaTag1
+    boolean doRejectUpdate = false;
+    if(useMegaTag2 == false)
+    {
+      LimelightHelpers.PoseEstimate mt1 = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-shooter");
+      
+      if(mt1.tagCount == 1 && mt1.rawFiducials.length == 1)
+      {
+        if(mt1.rawFiducials[0].ambiguity > .7)
+        {
+          doRejectUpdate = true;
+        }
+        if(mt1.rawFiducials[0].distToCamera > 3)
+        {
+          doRejectUpdate = true;
+        }
+      }
+      if(mt1.tagCount == 0)
+      {
+        doRejectUpdate = true;
+      }
+
+      if(!doRejectUpdate)
+      {
+        
+        m_poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.5,.5,9999999));
+        m_poseEstimator.addVisionMeasurement(
+            mt1.pose,
+            mt1.timestampSeconds);
+        
+            System.out.println("Atualizando pose estimator 1 X: "+ mt1.pose.getX()+ "\t Y: " + mt1.pose.getY());
+
+      }
+      else 
+      { 
+        System.out.println("Atualizando odometria 1 X: "+ mt1.pose.getX()+ "\t Y: " + mt1.pose.getY());
+
+      }
+    }
+    else if (useMegaTag2 == true)
+    {
+      LimelightHelpers.SetRobotOrientation("limelight-shooter", m_poseEstimator.getEstimatedPosition().getRotation().getDegrees(), 0, 0, 0, 0, 0);
+      LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-shooter");
+      if(Math.abs(gyro.getRate()) > 720) // if our angular velocity is greater than 720 degrees per second, ignore vision updates
+      {
+        doRejectUpdate = true;
+      }
+      if(mt2.tagCount == 0)
+      {
+        doRejectUpdate = true;
+      }
+      if(!doRejectUpdate)
+      {
+        m_poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
+        m_poseEstimator.addVisionMeasurement(
+            mt2.pose,
+            mt2.timestampSeconds);
+      }
+    }
+  
+  }
+
+ 
   /**
    * Get yaw value
    * @return The current Yaw values in degrees (-180 to 180)
@@ -498,7 +594,7 @@ public class SwerveSubsystem extends SubsystemBase
                                 ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, 
                                                                       ySpeed, 
                                                                       turningSpeed, 
-                                                                      gyro.getRotation2d()) 
+                                                                      m_poseEstimator.getEstimatedPosition().getRotation()) 
                                 : new ChassisSpeeds(xSpeed, ySpeed, turningSpeed)                               
                               );//Do this if fielOrientation is false 
 
@@ -512,6 +608,8 @@ public class SwerveSubsystem extends SubsystemBase
     
 
   }
+
+  
 
   
 
