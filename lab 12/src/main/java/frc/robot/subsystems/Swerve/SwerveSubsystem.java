@@ -34,6 +34,7 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.Limelight.LimelightHelpers;
+import frc.robot.subsystems.Limelight.LimelightHelpers.LimelightTarget_Retro;
 
 
 public class SwerveSubsystem extends SubsystemBase 
@@ -142,6 +143,7 @@ public class SwerveSubsystem extends SubsystemBase
                       {
                           Thread.sleep(1000); //avoid to block the rest of our code from running
                           zeroHeading();
+                          
                       } catch (Exception e) 
                       {
                       }
@@ -150,7 +152,7 @@ public class SwerveSubsystem extends SubsystemBase
    
   
    AutoBuilder.configureHolonomic(
-       this::getPose, // Robot pose supplier
+       this::getPoseEstimator, // Robot pose supplier
        this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
        this::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
        this::drive, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
@@ -185,6 +187,13 @@ public class SwerveSubsystem extends SubsystemBase
         }
 
       }
+
+  }
+
+  public void loadLimelightAnlge()
+  {
+    double angleLime = LimelightHelpers.getBotPose("limelight-shooter")[5];
+    gyro.setAngleAdjustment(angleLime);
 
   }
 
@@ -227,9 +236,11 @@ public class SwerveSubsystem extends SubsystemBase
     SmartDashboard.putNumber("Chassis /Rotation (degrees)", this.getPose().getRotation().getDegrees());
 
     SmartDashboard.putNumber("PoseEstimator /Pose X (meters)", this.getPoseEstimator().getX());
-    SmartDashboard.putNumber("PoseEstimator /Pose Y (meters)", this.getPoseEstimator().getY());
+    SmartDashboard.putNumber("PoseEstimator /rPose Y (meters)", this.getPoseEstimator().getY());
+    SmartDashboard.putNumber("PoseEstimator /BotPose (degrees)", LimelightHelpers.getBotPose("limelight-shooter")[5]);
     SmartDashboard.putNumber("PoseEstimator /Rotation (degrees)", this.getPoseEstimator().getRotation().getDegrees());
     SmartDashboard.putBoolean("True Blue", isBlue);
+    
 /* 
 
     for (int i = 0; i < modules.length; i++) 
@@ -345,7 +356,7 @@ public class SwerveSubsystem extends SubsystemBase
    public void resetOdometry(Pose2d pose) 
    {
 
-    odometer.resetPosition(
+    m_poseEstimator.resetPosition(
                   gyro.getRotation2d(), //arrow usa gyro.getAngle() ///getGyroYaw()
                   new SwerveModulePosition[] 
                                           {
@@ -387,7 +398,7 @@ public Pose2d getPoseEstimator()
   public void addPoseVision()
   {
     boolean update=false;
-    boolean useMegaTag2 = false; //set to false to use MegaTag1
+    boolean useMegaTag2 = true; //set to false to use MegaTag1
     boolean doRejectUpdate = false;
     LimelightHelpers.PoseEstimate mt1;
 
