@@ -46,7 +46,7 @@
 
 -> PID declarado por Slot
 
-# Lab6: Template para Swerve usando motores Kraken para tração e NEO para turning, CanCoder no turning e NavX.
+# Lab6: Template para Swerve SDS M4k L4 usando motores Kraken para tração e NEO para turning, CanCoder no turning e NavX.
 
 -> Controle por joystick
 
@@ -89,6 +89,10 @@
 # Lab10: Auto Path - PathPlanner
 
 -> Criar autonomous usando o pathplanner
+
+# Lab11: Swerve Pose Estimator
+
+-> Início de teste com pose estimator
 
 
 
