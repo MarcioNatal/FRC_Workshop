@@ -2,6 +2,8 @@
 
 Uma iniciativa da equipes de FRC 7563, 7565, 7567, 9085, 9199, 9200, 9458, 9459, 9460 e 9461.
 
+Workshop realizado na escola SENAI "Comendador Santoro Mirone" na cidade de Indaiatuba - SP de 11/11/2024 a 14/11/2024.
+
 # Lab1: Motor REV controlado por eixo de Joystick
 
 -> Teoria de framework
