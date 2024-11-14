@@ -104,11 +104,13 @@
 
 -> Criado autonomous usando PathPlanner com odometria baseada pela AprilTag
 
-##Todos os programas foram testados , porém para implementação é preciso fazer as devidas adaptações de acordo com  tipo de módulo que a equipe utiliza.
+# Obs:.
 
-##Sugestão que antes de usar qualquer modelo que primeiramente seja feita uma avaliação e análise do código fonte.
+- Todos os programas foram testados , porém para cada implementação é preciso fazer as devidas adaptações de acordo com  tipo de módulo que a equipe utiliza.
 
-	##Trabalhe com segurança e reduza a velocidade nos testes iniciais.
+- Sugestão: antes de usar qualquer modelo que primeiramente seja feita uma avaliação e análise do código fonte.
+
+ - Trabalhe com segurança e reduza a velocidade nos testes iniciais.
 
 
 
