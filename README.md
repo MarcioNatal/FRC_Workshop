@@ -108,6 +108,22 @@ Workshop realizado na escola SENAI "Comendador Santoro Mirone" na cidade de Inda
 
 -> Criado autonomous usando PathPlanner com odometria baseada pela AprilTag
 
+# Lab13: Swerve SDS M4ki L3, usando motores Kraken para tração e NEO para turning, CanCoder no turning e Pigeon.
+
+-> Controle por joystick
+
+-> Antes de usar o template é necessário atualizar:
+	
+ 	- a cinemática do robô, 
+  
+  	- redução dos motores, 
+   
+   	- offset dos cancoders e 
+    
+    	- constates relacionadas aos cálculos da odometria.
+
+-> Modelo com sistema de visão Limelight, leitura de AprilTags, Path Planner, Pose Estimator e Autonomous
+
 # Obs:.
 
 - Todos os programas foram testados , porém para cada implementação é preciso fazer as devidas adaptações de acordo com  tipo de módulo que a equipe utiliza.
