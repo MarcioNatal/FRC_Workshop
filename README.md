@@ -102,7 +102,7 @@ Workshop realizado na escola SENAI "Comendador Santoro Mirone" na cidade de Inda
 
 -> Instanciado seleção de Aliança para escolha de modo de leitura da AprilTag
 
-# Lab12: Autonomous + PathPlanner + Pose Estimator
+# Lab12: Autonomous + PathPlanner + Pose Estimator + Limelight
 
 -> Configuração do AutoBuilder (pathPlanner) para atualização pelo PoseEstimator
 
