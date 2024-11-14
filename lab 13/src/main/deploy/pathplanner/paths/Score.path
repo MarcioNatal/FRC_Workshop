@@ -1,0 +1,87 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 7.726886294559709,
+        "y": 0.8077125277685265
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 6.880934846424755,
+        "y": 2.5419127682415485
+      },
+      "isLocked": false,
+      "linkedName": "game piece 1"
+    },
+    {
+      "anchor": {
+        "x": 6.052718509730401,
+        "y": 4.156048097427144
+      },
+      "prevControl": {
+        "x": 6.7714675552417285,
+        "y": 3.8328256397825298
+      },
+      "nextControl": {
+        "x": 5.028954613451404,
+        "y": 4.616436162871759
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.0728986001800274,
+        "y": 2.834336688351374
+      },
+      "prevControl": {
+        "x": 2.7054608120420935,
+        "y": 2.8209093272409946
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "Example Marker",
+      "waypointRelativePos": 0.8,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "marker2"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 122.06194368281355
+  },
+  "reversed": false,
+  "folder": "Tests",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 0.0
+  },
+  "useDefaultConstraints": false
+}

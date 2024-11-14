@@ -1,0 +1,43 @@
+{
+  "version": 1.0,
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Pickup"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "marker2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Score"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "print hello"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "GoCenterPath"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": false,
+  "folder": null,
+  "choreoAuto": false
+}
