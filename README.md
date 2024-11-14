@@ -92,7 +92,21 @@
 
 # Lab11: Swerve Pose Estimator
 
--> Início de teste com pose estimator
+-> Instanciado pose estimator
+
+-> Robô atualiza posição automaticamente quando lê AprilTag usando Megatag2
+
+-> Instanciado seleção de Aliança para escolha de modo de leitura da AprilTag
+
+# Lab12: Autonomous + PathPlanner + Pose Estimator
+
+-> Configuração do AutoBuilder (pathPlanner) para atualização pelo PoseEstimator
+
+-> Criado autonomous usando PathPlanner com odometria baseada pela AprilTag
+
+##Todos os programas foram testados , porém para implementação é preciso fazer as devidas adaptações de acordo com  tipo de módulo que a equipe utiliza.
+##Sugestão que antes de usar qualquer modelo que primeiramente seja feita uma avaliação e análise do código fonte.
+	##Trabalhe com segurança e reduza a velocidade nos testes iniciais.
 
 
 
