@@ -1,5 +1,7 @@
 # FRC_Workshop
 
+Uma iniciativa da equipes de FRC 7563, 7565, 7567, 9085, 9199, 9200, 9458, 9459, 9460 e 9461.
+
 # Lab1: Motor REV controlado por eixo de Joystick
 
 -> Teoria de framework

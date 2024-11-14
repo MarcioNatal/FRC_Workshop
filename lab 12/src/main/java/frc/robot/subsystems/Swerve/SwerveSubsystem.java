@@ -398,7 +398,9 @@ public Pose2d getPoseEstimator()
   public void addPoseVision()
   {
     boolean update=false;
+
     boolean useMegaTag2 = true; //set to false to use MegaTag1
+
     boolean doRejectUpdate = false;
     LimelightHelpers.PoseEstimate mt1;
 
