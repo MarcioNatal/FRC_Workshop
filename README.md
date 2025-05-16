@@ -285,7 +285,8 @@ This code cancels the ongoing **Pathfinding** command and stops the robot's move
 
 ### Pigeon Orientation
 
-![Screenshot 2025-05-16 091657](https://github.com/user-attachments/assets/945b1f4b-337a-4076-a818-06c7f3e861c8)
+![Screenshot 2025-05-16 092005](https://github.com/user-attachments/assets/06a9aa0a-1e13-461a-bf08-c5eaf7766090)
+
 
 
 
