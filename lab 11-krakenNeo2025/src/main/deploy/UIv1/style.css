@@ -1,0 +1,298 @@
+body {
+    font-family: 'Ropa Sans', sans-serif;
+    text-align: center;
+    background-image: url('images/background.png');
+    align-content: center;
+    color: azure;
+}
+
+.interface {
+    font-size: 0;
+    align-content: center;
+}
+.reef-container {
+    position: relative;
+    align-self: flex-start;
+    width: 50%;
+    height: 43vw; 
+    max-width: 550px;
+    max-height: 500px;
+    margin: 2% auto;
+    background: url('images/background.png') no-repeat center;
+    background-size: contain;
+    display: inline-block;
+}  
+.reef-container img {
+    height: 100%;
+    width: 50%;
+}
+
+#reef-pipe {
+    position: relative;
+    width: 25%;
+    height: 43vw; 
+    max-width: 250px;
+    max-height: 500px;
+    margin: 2% auto;
+    margin-left: 15%;
+    background-size: contain;
+    display: inline-block;
+}
+#img-pipe {
+    margin-right: 5%;
+}
+#reef-position {
+    background-image: url('images/reef-blue.png');
+}
+
+.button {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    max-width: 50px;
+    max-height: 50px;
+    font-size: 2vw;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.reef-button {
+    background-color: #a1a4a1;
+    color: white;
+}
+.level-button {
+    background-color: #a1a4a1;
+    color: white;
+    max-width: 75px;
+    max-height: 75px;
+}
+.button:hover {
+    transform: scale(1.1);
+    opacity: 0.8;
+}
+
+
+/*#A { top: 36.5%; left: 5%; }
+#B { top: 53.5%; left: 5%; }*/
+/*#C { top: 72%; left: 16%; }
+#D { top: 83%; left: 32%; }*/
+#A { top: 85%; left: 37%; }
+/*#E { top: 83%; left: 55%; }*/
+#B { top: 85%; left: 53%; }
+/*#F { top: 72%; left: 72%; }*/
+#C { top: 72%; left: 72%; }
+/*#G { top: 53.5%; left: 82.5%; }*/
+#D { top: 56%; left: 80%; }
+/*#H { top: 36.5%; left: 82.5%; }*/
+#E { top: 34%; left: 80%; }
+/*#I { top: 17%; left: 72%; }*/
+#F { top: 19%; left: 72%; }
+/*#J { top: 7%; left: 55%; }*/
+#G { top: 6%; left: 53%; }
+/*#K { top: 7%; left: 32%; }*/
+#H { top: 6%; left: 37%; }
+/*#L { top: 17%; left: 16%; }*/
+#I { top: 19%; left: 16%; }
+#J { top: 34%; left: 9%; }
+#K { top: 56%; left: 9%; }
+#L { top: 72%; left: 16%; }
+
+#L4 { top: 8%; left: 50%; }
+#L3 { top: 35%; left: 50%; }
+#L2 { top: 57%; left: 50%; }
+#L1 { top: 80%; left: 50%; }
+
+.checkBox {
+    display: block;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border: 3px solid rgba(255, 255, 255, 0);
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0px 0px 0px 2px #fff;
+  }
+  
+  .checkBox div {
+    width: 60px;
+    height: 60px;
+    background-color: #4CAF50;
+    top: -52px;
+    left: -52px;
+    position: absolute;
+    transform: rotateZ(45deg);
+    z-index: 100;
+  }
+  
+  .checkBox input[type=checkbox]:checked + div {
+    left: -10px;
+    top: -10px;
+  }
+  
+  .checkBox input[type=checkbox] {
+    position: absolute;
+    left: 50px;
+    visibility: hidden;
+  }
+  
+  .transition {
+    transition: 300ms ease;
+  }
+
+  #robot-status{
+    left: 20%;
+  }
+
+  .primary-button {
+    font-family: 'Ropa Sans', sans-serif;
+    color: white;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 0.05rem;
+    border: 1px solid #0E1822;
+    padding: 0.8rem 0.8rem;
+    background-color: #0E1822;
+    background-size: 150%;
+    background-position: 150%;
+    transition: 0.3s ease-in-out;
+    transition-property: background-position, border, color;
+    position: relative;
+    z-index: 1;
+   }
+
+   .primary-button:before {
+    content: "";
+    position: relative;
+    background-color: #0E1822;
+    width: 0.2rem;
+    height: 0.2rem;
+    top: -1px;
+    left: -1px;
+    transition: background-color 0.15s ease-in-out;
+   }
+ 
+   .primary-button:after {
+    content: "";
+    position: relative;
+    background-color: #3F51B5;
+    width: 0.3rem;
+    height: 0.3rem;
+    bottom: -1px;
+    right: -1px;
+    transition: background-color 0.15s ease-in-out;
+   }
+   
+   .button-borders {
+    position: relative;
+    float: right;
+    text-align: end;
+   }
+
+   #bb2{
+    position: relative;
+    right: 10%;
+   }
+   
+   .button-borders:before {
+    content: "";
+    position: absolute;
+    width: calc(100% + 0.5em);
+    height: 50%;
+    left: -0.3em;
+    top: -0.3em;
+    border: 1px solid #e3f0fd;
+    border-bottom: 0px;
+   }
+   
+   .button-borders:after {
+    content: "";
+    position: absolute;
+    width: calc(100% + 0.5em);
+    height: 50%;
+    left: -0.3em;
+    bottom: -0.3em;
+    border: 1px solid #e3f0fd;
+    border-top: 0px;
+    z-index: 0;
+   }
+   
+   .shape {
+    fill: #0E1822;
+   }
+
+   .connect {
+    position: relative;
+    width: 100%;
+    height: 15vw;
+    max-width: 2000px;
+    max-height: 25px;
+    margin: 2% auto;
+    display: inline-block;
+    align-self: center;
+}  
+
+
+#button-status {
+    float: right;
+    position: relative;
+    display:inline-block;
+    width: 50%;
+    height: 15vw;
+    max-width: 1000px;
+    max-height: 25px;
+    margin: auto;
+    right: 2%;
+    bottom: 25%; 
+}
+
+#team-status {
+    position: relative;
+    display: inline-block;
+    align-items:center;
+    width: 50%; 
+    height: 10vw;
+    max-width: 2000px;
+    max-height: 25px;
+}
+
+#text-status {
+    position: relative;  
+    display: inline-flexbox;
+    align-self: center;
+    float: left;
+    left: 15%;
+    bottom: 25%;
+}
+
+h1 {
+    position: relative;
+    color: azure;
+    font-size: 15px;
+    text-align: left;
+    margin: 0;
+    margin-bottom: 0.3rem;
+    display: flex;
+    float: left;
+}
+
+.status img {
+    position: relative;
+    max-height:290%; 
+    max-width: 290%;
+}
+#logo-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 15%;
+    height: 10vw;
+    max-width: 2000px;
+    max-height: 25px;
+    align-self: center;
+    float: left;
+}
+

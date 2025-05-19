@@ -1,0 +1,70 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 6.77,
+        "y": 2.49
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 6.52,
+        "y": 2.49
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.761410256410255,
+        "y": 2.49
+      },
+      "prevControl": {
+        "x": 5.503190989530553,
+        "y": 2.512515535693047
+      },
+      "nextControl": {
+        "x": 6.02974358974359,
+        "y": 2.4666025641025637
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.05,
+        "y": 2.69
+      },
+      "prevControl": {
+        "x": 5.264902310576376,
+        "y": 2.5031882714898916
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 2.0,
+    "maxAcceleration": 1.5,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 121.82744657667304
+  },
+  "reversed": false,
+  "folder": "Auto2PiecesRight",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 180.0
+  },
+  "useDefaultConstraints": false
+}

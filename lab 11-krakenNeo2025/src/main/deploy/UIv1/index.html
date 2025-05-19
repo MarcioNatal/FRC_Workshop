@@ -1,0 +1,241 @@
+<!---->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reefscape Touchscreen Interface</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="/src/main/deploy/UIv1/images/Logos-Mega/default-png.ico" />
+</head>
+<body>
+    <!-- This starts the NetworkTables websocket, it can be accessed from multiple
+     pages simultaneously -->
+    <script src="/networktables/networktables.js"></script>
+
+    <!-- Obviously, you will want to copy this file locally in a real 
+         dashboard, as the Driver Station won't have internet access -->
+    <script src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
+
+    <!-- Load the custom script that will be used to interact with the robot -->
+    <div class="connect">
+        <div id="team-status" class="status">
+            <div id="logo-container">
+                <img id="logo" src="images/Logos-Mega/gray-purple.png" alt="logo">
+            </div>
+            <div id="text-status">
+                <h1 id="connectstate">NetworkTables: Unknown state</h1></br>
+                <h1 id="robotstate">Robot: Unknown state #</h1><h1 id="robotAddress">Off</h1>
+            </div>
+            <label id="robot-status" class="checkBox">
+                <input id="ch1" type="checkbox">
+                <div id="trans1" class="transition"></div>
+            </label>
+        </div>
+    
+        <div id="button-status" class="status">
+            <div id="bb1" class="button-borders">
+                <button id="pb1" class="primary-button"> UNKNOWN ALLIANCE
+                </button>
+            </div>
+            <div id="bb2" class="button-borders">
+                <button id="pb2" class="primary-button"> INTERFACE DISCONECTED
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <hr/>
+
+    <div class="interface">
+        <div id="reef-position" class="reef-container">
+            <button id="A" class="button reef-button" onclick="selectReef('A')">A</button>
+            <button id="B" class="button reef-button" onclick="selectReef('B')">B</button>
+            <button id="C" class="button reef-button" onclick="selectReef('C')">C</button>
+            <button id="D" class="button reef-button" onclick="selectReef('D')">D</button>
+            <button id="E" class="button reef-button" onclick="selectReef('E')">E</button>
+            <button id="F" class="button reef-button" onclick="selectReef('F')">F</button>
+            <button id="G" class="button reef-button" onclick="selectReef('G')">G</button>
+            <button id="H" class="button reef-button" onclick="selectReef('H')">H</button>
+            <button id="I" class="button reef-button" onclick="selectReef('I')">I</button>
+            <button id="J" class="button reef-button" onclick="selectReef('J')">J</button>
+            <button id="K" class="button reef-button" onclick="selectReef('K')">K</button>
+            <button id="L" class="button reef-button" onclick="selectReef('L')">L</button>
+        </div>
+
+        <div id="reef-height" class="reef-container">
+            <div id="reef-pipe" class="reef-level">
+                <button id="L1" class="button level-button" onclick="selectLevel('L1')">L1</button>
+                <button id="L2" class="button level-button" onclick="selectLevel('L2')">L2</button>
+                <button id="L3" class="button level-button" onclick="selectLevel('L3')">L3</button>
+                <button id="L4" class="button level-button" onclick="selectLevel('L4')">L4</button>
+            </div>
+            <img src="images/reef-pipe.png" alt="reef-pipe" id="img-pipe">
+        </div>
+
+    </div>
+
+    <script type="text/javascript">
+    "use strict";
+
+    // This is the function that will be called when the page is loaded
+    $(document).ready(function(){
+
+        // sets a function that will be called when the websocket connects/disconnects
+        NetworkTables.addWsConnectionListener(onNetworkTablesConnection, true);
+
+        // sets a function that will be called when the robot connects/disconnects
+        NetworkTables.addRobotConnectionListener(onRobotConnection, true);
+
+        // sets a function that will be called when any NetworkTables key/value changes
+        NetworkTables.addGlobalListener(function(key,value,isNew){}, true);
+
+        // sets a function that will be called when the NetworkTables instance indicates the robot alliance
+        NetworkTables.addKeyListener('/FMSInfo/IsRedAlliance', onAllianceConnection, true);
+
+        // sets a function that will be called when the NetworkTables instance indicates if the interface is enabled
+        NetworkTables.addKeyListener('/SmartDashboard/enableInterface', enableInterface, true);
+    }); 
+
+
+    let previousButtonReef = null;
+    let buttonClickedReef = false;
+    let previousButtonLevel = null;
+    let buttonClickedLevel = false;
+    const purple = "#6200ea";
+    const green = "#4CAF50";
+    const gray = "#a1a4a1";
+
+    function selectReef(position) {
+        // If a button was previously clicked, change its color back to gray
+        if(previousButtonReef != null){
+            NetworkTables.putValue('/SmartDashboard/' + previousButtonReef.id + 'ButtonValue',false);
+            previousButtonReef.style.backgroundColor = gray;
+        }
+        // Set the value of the button to true
+        NetworkTables.putValue('/SmartDashboard/' + position + 'ButtonValue',true);
+        const button = document.getElementById(position);
+        // Change the color of the button to purple
+        button.style.backgroundColor = purple;
+        // Set the button as the previous button clicked
+        previousButtonReef = button;
+        buttonClickedReef = true;
+    }
+
+    function selectLevel(level) {
+        // If a button was previously clicked, change its color back to gray
+        if(previousButtonLevel != null){
+            previousButtonLevel.style.backgroundColor = gray;
+            NetworkTables.putValue('/SmartDashboard/' + previousButtonLevel.id + 'ButtonValue',false);
+        }
+        // Set the value of the button to true
+        NetworkTables.putValue('/SmartDashboard/' + level + 'ButtonValue',true);
+        const button = document.getElementById(level);
+        // Change the color of the button to green
+        button.style.backgroundColor = green;
+        // Set the button as the previous button clicked
+        previousButtonLevel = button;
+        buttonClickedLevel = true;
+    }
+
+    document.addEventListener('click', function(event) {
+        // If a Reef button was previously clicked and the user clicks outside of the buttons, change its color back to gray
+        if (buttonClickedReef && !event.target.classList.contains('level-button') && !event.target.classList.contains('reef-button')) {
+            // Set the value of the button to false
+            NetworkTables.putValue('/SmartDashboard/' + previousButtonReef.id + 'ButtonValue',false);
+            // Change the color of the button to gray
+            if(previousButtonReef.style.backgroundColor == "rgb(98, 0, 234)"){
+                previousButtonReef.style.backgroundColor = gray;
+                buttonClickedReef = false;
+            }
+
+        }
+
+        // If a Level button was previously clicked and the user clicks outside of the buttons, change its color back to gray
+        if (buttonClickedLevel && !event.target.classList.contains('level-button') && !event.target.classList.contains('reef-button')
+                && (event.target.id === 'reef-pipe' || event.target.id === 'img-pipe')) {
+            // Set the value of the button to false
+            NetworkTables.putValue('/SmartDashboard/' + previousButtonLevel.id + 'ButtonValue',false);
+            // Change the color of the button to gray
+            if(previousButtonLevel.style.backgroundColor == "rgb(76, 175, 80)"){
+                previousButtonLevel.style.backgroundColor = gray;
+                buttonClickedLevel = false;
+            }
+
+        }
+    });
+
+
+
+    function onRobotConnection(connected) {
+        // This function is called when the robot connects or disconnects
+        $('#robotstate').text(connected ? "Robot: Connected! #" : "Robot: Disconnected #");
+        $('#robotAddress').text(connected ? NetworkTables.getRobotAddress().substring(8,12) : "Off");
+
+        // Change the color of the transition div depending on the connection state
+        if(!connected){
+            $('#trans1').css('background-color', 'red');
+            $('#ch1').click();
+        }else{
+            $('#trans1').css('background-color', '#4CAF50');
+        }
+
+    }
+
+    function onNetworkTablesConnection(connected) {
+        // This function is called when the NetworkTables connection state changes
+        if (connected) {
+            $("#connectstate").text("NetworkTables: Connected!");   
+        } else {
+            $("#connectstate").text("NetworkTables: Disconnected!");
+        }
+    }
+
+    function onAllianceConnection(key, value, isNew) {
+        // This function is called when the alliance changes
+        const alliance = document.getElementById("pb1");
+        const image = document.getElementById('reef-position');
+        // Change the text of the button depending on the alliance
+        $(alliance).text(value?"RED ALLIANCE" : "BLUE ALLIANCE");
+        if(value){
+            // Change the alliance button to red
+            alliance.style.border = "1px solid #FF4655";
+            alliance.style.color = "white";
+            alliance.style.backgroundColor   = "#FF4655";
+            alliance.style.backgroundPosition = "40%";
+            // Change the image to the red reef
+            image.style.backgroundImage = "url('images/reef-red.png')";
+        }else{
+            // Change the alliance button to blue
+            alliance.style.border = "1px solid #3F51B5";
+            alliance.style.color = "white"; 
+            alliance.style.backgroundColor = "#3F51B5";
+            alliance.style.backgroundPosition = "40%";
+            // Change the image to the blue reef
+            image.style.backgroundImage = "url('images/reef-blue.png')";
+        }
+    }
+
+    function enableInterface(key, value, isNew){
+        // This function is called when the interface is enabled or disabled
+        $('#pb2').text(value?"INTERFACE ENABLED" : "INTERFACE DISABLED");
+        if(value){
+            // Change the interface button to green
+            $('#pb2').css('border', '1px solid #4CAF50'); 
+            $('#pb2').css('color', 'white'); 
+            $('#pb2').css('background-color', '#4CAF50'); 
+            $('#pb2').css('background-position', '40%');    
+        }else{
+            // Change the interface button to red
+            $('#pb2').css('border', '1px solid #FF4655'); 
+            $('#pb2').css('color', 'white'); 
+            $('#pb2').css('background-color', '#FF4655'); 
+            $('#pb2').css('background-position', '40%');    
+        }
+    }
+
+    </script>
+
+</body>
+</html>
+
