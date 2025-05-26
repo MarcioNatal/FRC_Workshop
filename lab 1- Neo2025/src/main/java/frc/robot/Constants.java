@@ -18,10 +18,10 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 public final class Constants 
 {
 
-public static int motorSparkId = 24;
-public static int kMotorCurrentLimit=15;
-public static IdleMode kMotorIdleMode = IdleMode.kBrake;
-  
+  public static int motorSparkId = 24;
+  public static int kMotorCurrentLimit=15;
+  public static IdleMode kMotorIdleMode = IdleMode.kBrake;
+    
   public static class OperatorConstants 
   {
     public static final int kDriverControllerPort = 0;

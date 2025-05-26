@@ -99,8 +99,6 @@ public class RobotContainer
     //algaSubsystem.setDefaultCommand(algaeCoralManual);
 
 
-    // Build an auto chooser. This will use Commands.none() as the default option.
-    chooserAuto = AutoBuilder.buildAutoChooser();
     
     
     //Instantiate subsystems
@@ -111,8 +109,7 @@ public class RobotContainer
     // Instantiate Xbox Controller
     
     
-     //Add to choices to smart dashboard
-    SmartDashboard.putData("Autonomous", chooserAuto);
+    
 
     //Default option
     /*chooserAuto.setDefaultOption("Autonomous 1", autoMundoSenai);
@@ -216,7 +213,7 @@ public class RobotContainer
   public Command getAutonomousCommand() 
   {
     // An example command will be run in autonomous
-    return chooserAuto.getSelected();
+    return null;
   }
 
 }
