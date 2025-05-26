@@ -6,15 +6,14 @@ package frc.robot;
 
 
 
-//Java Imports
-import com.pathplanner.lib.auto.AutoBuilder;
+
 
 //WPILIB Imports
 
 import edu.wpi.first.wpilibj.Joystick;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import edu.wpi.first.wpilibj2.command.Command;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;

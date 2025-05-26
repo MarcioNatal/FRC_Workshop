@@ -7,8 +7,7 @@ package frc.robot;
 
 //CTRE Imports
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.pathplanner.lib.controllers.PPHolonomicDriveController;
-import com.pathplanner.lib.config.PIDConstants;
+
 import com.revrobotics.spark.ClosedLoopSlot;
 //REV Imports
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;

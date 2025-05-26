@@ -18,7 +18,7 @@ import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
 
 
-import com.pathplanner.lib.config.RobotConfig;
+
 
 
 //WPI Imports
@@ -128,8 +128,7 @@ public class SwerveSubsystem extends SubsystemBase
   private boolean isBlue = false;
   private boolean blueAlliance =false;
 
-  //PathPlanner Config
-  RobotConfig config;
+  
 
   //Select alliance heading - default is blue
   private double allianceHeading = 0;
