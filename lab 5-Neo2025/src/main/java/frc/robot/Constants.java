@@ -20,10 +20,10 @@ public final class Constants
 
   public static class DriveConstants 
   {
-    public static int motorSparkId = 24;
-    public static int kMotorCurrentLimit=20;
+    public static int motorSparkId = 12;
+    public static int kMotorCurrentLimit=40;
     public static IdleMode kMotorIdleMode = IdleMode.kBrake;
-    public static double motorSparkIdPositionFactor = 0.76394;
+    //public static double motorSparkIdPositionFactor = 0.76394;
   
   }
   

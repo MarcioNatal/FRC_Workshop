@@ -8,7 +8,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.DriveCommand;
 import frc.robot.subsystems.DriveSubSystem;
 import edu.wpi.first.wpilibj2.command.Command;
-
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -31,7 +31,7 @@ public class RobotContainer
   public RobotContainer() 
   {
   //
-  //drive.setDefaultCommand(new RunCommand(()->drive.driveMotor(m_driverController.getLeftX()),drive));
+   //drive.setDefaultCommand(driveCommand);
  
     
     
@@ -53,8 +53,9 @@ public class RobotContainer
    
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-    //m_driverController.b().whileTrue(driveCommand);
-    m_driverController.b().onTrue(driveCommand);
+    m_driverController.a().whileTrue(new InstantCommand (drive::resetEncoder));
+    //m_driverController.x().whileTrue(new InstantCommand(drive::initializeMotors));
+    m_driverController.b().whileTrue(driveCommand);
     
   }
 
@@ -63,7 +64,8 @@ public class RobotContainer
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
+  public Command getAutonomousCommand() 
+  {
     // An example command will be run in autonomous
     return null;
   }

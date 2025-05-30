@@ -8,10 +8,12 @@ package frc.robot.subsystems;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
+import com.revrobotics.spark.config.ClosedLoopConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 
@@ -26,14 +28,20 @@ public class DriveSubSystem extends SubsystemBase
 {
 
   //Create a new CANSparkMax object
-  private final SparkMax motorSpark; 
-  //Create a new RelativeEncoder object
-  private final RelativeEncoder motorEncoder;
+  private final SparkMax motorSpark  = new SparkMax(DriveConstants.motorSparkId,MotorType.kBrushless);
+
   //Create a new SparkMaxConfig object
   private SparkMaxConfig globalConfig = new SparkMaxConfig();
 
   //Create a new SparkClosedLoopConfig object
-  private final SparkClosedLoopController m_pidController;
+  private final SparkClosedLoopController m_pidController = motorSpark.getClosedLoopController();
+  //Create a new RelativeEncoder object
+  private final RelativeEncoder motorEncoder = motorSpark.getEncoder();
+  
+
+  
+
+  
 
 
   //Create constants for PID coefficients
@@ -45,11 +53,20 @@ public class DriveSubSystem extends SubsystemBase
   public DriveSubSystem() 
   {
 
+    // display PID coefficients on SmartDashboard
+    SmartDashboard.putNumber("PID/P Gain", kP);
+    SmartDashboard.putNumber("PID/I Gain", kI);
+    SmartDashboard.putNumber("PID/D Gain", kD);
+    SmartDashboard.putNumber("PID/I Zone", kIz);
+    SmartDashboard.putNumber("PID/Feed Forward", kFF);
+    SmartDashboard.putNumber("PID/Max Output", kMaxOutput);
+    SmartDashboard.putNumber("PID/Min Output", kMinOutput);
+
     //Instantiate the CANSparkMax object
-    motorSpark = new SparkMax(DriveConstants.motorSparkId,MotorType.kBrushless);
+    //motorSpark = new SparkMax(DriveConstants.motorSparkId,MotorType.kBrushless);
     
     //Instantiate the SparkClosedLoopConfig object
-    m_pidController = motorSpark.getClosedLoopController();
+    //m_pidController = motorSpark.getClosedLoopController();
 
       /**
        * The RestoreFactoryDefaults method can be used to reset the configuration parameters
@@ -59,7 +76,8 @@ public class DriveSubSystem extends SubsystemBase
     
 
       // Encoder object created to display position values
-      motorEncoder = motorSpark.getEncoder();
+     // motorEncoder = motorSpark.getEncoder();
+      
 
       /**
        * In order to use PID functionality for a controller, a SparkPIDController object
@@ -69,30 +87,46 @@ public class DriveSubSystem extends SubsystemBase
       
 
       // PID coefficients
-      kP = 6e-5; 
-      kI = 0;
-      kD = 0; 
-      kIz = 0; 
-      kFF = 0.000015; 
+      kP =0.01;
+      kI = 0.0;
+      kD = 0.0; 
+      kIz = 0.0; 
+      kFF = 0.0000; 
       kMaxOutput = 1; 
       kMinOutput = -1;
       maxRPM = 5700;
 
+      // Configure PID controller
+     //pIdLoopConfig.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
+     
+     initializeMotors();
+
+      // Configure the PID controller with the global configuration
+      
+     // Set the PID gains for the turning motor. Note these are example gains, and you may need to tune them for your own robot!
+     // slot, as it will default to slot 0.
+    /*  pIdLoopConfig.pidf(kP, 
+                        kI, 
+                        kD, 
+                        kFF,ClosedLoopSlot.kSlot0) ;*/
+
+      //Instantiate the SparkClosedLoopConfig object
+      // Configure PID controller
+          
+     
       
 
-      initializeMotors();
-    
-      // display PID coefficients on SmartDashboard
-      SmartDashboard.putNumber("PID/P Gain", kP);
-      SmartDashboard.putNumber("PID/I Gain", kI);
-      SmartDashboard.putNumber("PID/D Gain", kD);
-      SmartDashboard.putNumber("PID/I Zone", kIz);
-      SmartDashboard.putNumber("PID/Feed Forward", kFF);
-      SmartDashboard.putNumber("PID/Max Output", kMaxOutput);
-      SmartDashboard.putNumber("PID/Min Output", kMinOutput);
+      // Set the PID gains for the turning motor. Note these are example gains, and you may need to tune them for your own robot!
+     // slot, as it will default to slot 0.
+     
+          
       
-      SmartDashboard.putNumber("Motor/Position", 0);
-      SmartDashboard.putNumber("Motor/Velocity", 0);
+      //Instantiate the SparkClosedLoopConfig object
+      
+      
+      
+      SmartDashboard.putNumber("Position Degrees", 0);
+      //SmartDashboard.putNumber("Motor/Velocity", 0);
 
 
 
@@ -104,32 +138,34 @@ public class DriveSubSystem extends SubsystemBase
    */
   public void initializeMotors()
   {
-    // Restore all factory default settings
-    globalConfig.closedLoop
-    .feedbackSensor(FeedbackSensor.kPrimaryEncoder);
-
+ 
     // Configure motor
      globalConfig
-    .idleMode(DriveConstants.kMotorIdleMode) 
-    .smartCurrentLimit(DriveConstants.kMotorCurrentLimit)
-    .inverted(false);
+                .idleMode(DriveConstants.kMotorIdleMode) 
+                .smartCurrentLimit(DriveConstants.kMotorCurrentLimit)
+                .inverted(false);
 
     // Configure encoder 
     globalConfig.encoder
-    .velocityConversionFactor(1)
-    .positionConversionFactor(1);
+                .positionConversionFactor(360/7.25);
 
-    // Configure PID controller
     globalConfig.closedLoop
-    // Set the PID gains for the turning motor. Note these are example gains, and you may need to tune them for your own robot!
-    // slot, as it will default to slot 0.
-    .pidf(kP, 
-          kI, 
-          kD, 
-          kFF);
+                .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+                .p(kP)
+                .i(kI)
+                .d(kD)
+                .velocityFF(kFF)
+                .positionWrappingEnabled(true)
+                .positionWrappingInputRange(0,360);
+
+    
+
+    
 
     // Configure  like burn flash
     motorSpark.configure(globalConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);//
+
+  
     
   }
 
@@ -163,7 +199,7 @@ public class DriveSubSystem extends SubsystemBase
    * Metodo para movimentar o motor
    * @param position
    */
-  public void  driveToPosition( double mRotation)
+  public void  driveToPosition( double position)
   {
      /**
      * PIDController objects are commanded to a set point using the 
@@ -179,9 +215,9 @@ public class DriveSubSystem extends SubsystemBase
      *  com.revrobotics.SparkMax.ControlType.kVelocity
      *  com.revrobotics.SparkMax.ControlType.kVoltage
      */
+    System.out.println("position setpoint"+position);
     
-    
-    m_pidController.setReference(mRotation, SparkMax.ControlType.kPosition);
+    m_pidController.setReference(position, SparkMax.ControlType.kPosition);
     
   }
 
@@ -258,7 +294,7 @@ public class DriveSubSystem extends SubsystemBase
      * 
      * GetPosition() returns the position of the encoder in units of revolutions
      */
-    SmartDashboard.putNumber("Encoder Position", motorEncoder.getPosition());
+    SmartDashboard.putNumber("Encoder Position", this.getMotorPosition());
 
     /**
      * Encoder velocity is read from a RelativeEncoder object by calling the
@@ -266,12 +302,12 @@ public class DriveSubSystem extends SubsystemBase
      * 
      * GetVelocity() returns the velocity of the encoder in units of RPM
      */
-    SmartDashboard.putNumber("Encoder Velocity", motorEncoder.getVelocity());
+    //SmartDashboard.putNumber("Encoder Velocity", motorEncoder.getVelocity());
     SmartDashboard.putNumber("Motor Current", getCurrent());
     SmartDashboard.putNumber("Motor Voltage", getVoltage());
     SmartDashboard.putNumber("Motor Temperature", getTemperature());
     SmartDashboard.putNumber("Motor Duty", getDutyCycle());
-    SmartDashboard.putNumber("ProcessVariable", motorEncoder.getPosition());
+    //SmartDashboard.putNumber("ProcessVariable", motorEncoder.getPosition());
    
 
      // read PID coefficients from SmartDashboard
@@ -282,15 +318,19 @@ public class DriveSubSystem extends SubsystemBase
      double ff = SmartDashboard.getNumber("PID/Feed Forward", 0);
      double max = SmartDashboard.getNumber("PID/Max Output", 0);
      double min = SmartDashboard.getNumber("PID/Min Output", 0);
+     
+  
     
  
      // if PID coefficients on SmartDashboard have changed, write new values to controller
-     if((p != kP)) { globalConfig.closedLoop.p(p); kP = p; }
+     if((p != kP)) { globalConfig.closedLoop.p(p); kP = p;}//
      if((i != kI)) { globalConfig.closedLoop.i(i); kI = i; }
      if((d != kD)) { globalConfig.closedLoop.d(d); kD = d; }
      if((iz != kIz)) { globalConfig.closedLoop.iZone(iz); kIz = iz; }
      if((ff != kFF)) { globalConfig.closedLoop.velocityFF(ff); kFF = ff; }
      if((max != kMaxOutput) || (min != kMinOutput)) { globalConfig.closedLoop.outputRange(min, max);
                                                       kMinOutput = min; kMaxOutput = max;}
+
+    
   }
 }

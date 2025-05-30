@@ -14,6 +14,10 @@ import frc.robot.subsystems.DriveSubSystem;
 public class DriveCommand extends Command 
 {
   public DriveSubSystem drive = RobotContainer.drive;
+  private double setPoint = 0.0;
+  private double positionDegrees;
+  private double tolerance = 0.05;//5%
+  private boolean finish = false;
   
   
   /** Creates a new DriveCommand. */
@@ -29,10 +33,10 @@ public class DriveCommand extends Command
   public void initialize() 
   {
 
-    drive.resetEncoder();
+    //drive.resetEncoder();
     
     System.out.println("Drivecommand iniciado");
-    
+    positionDegrees = drive.getMotorPosition();
     
   }
 
@@ -40,8 +44,15 @@ public class DriveCommand extends Command
   @Override
   public void execute() 
   { 
+    setPoint = SmartDashboard.getNumber("Position Degrees", 0);
+    System.out.println("setPoint"+setPoint);
     
-    drive.driveToVelocity(SmartDashboard.getNumber("Motor/Velocity", 0));
+    drive.driveToPosition(setPoint);
+
+    //if (setPoint* (1-tolerance) < positionDegrees && positionDegrees < setPoint * (1+tolerance)) finish=true;
+    if (positionDegrees>=setPoint)finish=true;
+    
+    
    
     
   }
@@ -51,7 +62,8 @@ public class DriveCommand extends Command
   public void end(boolean interrupted) 
   {
     
-    drive.stopMotor();
+    //drive.stopMotor();
+    drive.driveToPosition(setPoint);
    
     System.out.println("Drivecommand encerrado");
 
@@ -61,7 +73,7 @@ public class DriveCommand extends Command
   @Override
   public boolean isFinished() 
   {
-
-    return RobotContainer.m_driverController.getHID().getAButton();
+    
+    return finish;
   }
 }
