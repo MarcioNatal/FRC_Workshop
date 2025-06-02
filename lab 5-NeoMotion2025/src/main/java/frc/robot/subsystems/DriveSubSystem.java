@@ -14,6 +14,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.MAXMotionConfig.MAXMotionPositionMode;
+import com.revrobotics.spark.config.MAXMotionConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 
@@ -28,15 +29,15 @@ public class DriveSubSystem extends SubsystemBase
 {
 
   //Create a new CANSparkMax object
-  private final SparkMax motorSpark  = new SparkMax(DriveConstants.motorSparkId,MotorType.kBrushless);
+  private final SparkMax motorSpark;//;//  = new SparkMax(DriveConstants.motorSparkId,MotorType.kBrushless);
 
   //Create a new SparkMaxConfig object
-  private SparkMaxConfig globalConfig = new SparkMaxConfig();
+  private SparkMaxConfig globalConfig;// = new SparkMaxConfig();
 
   //Create a new SparkClosedLoopConfig object
-  private final SparkClosedLoopController m_pidController = motorSpark.getClosedLoopController();
+  private final SparkClosedLoopController m_pidController;// = motorSpark.getClosedLoopController();
   //Create a new RelativeEncoder object
-  private final RelativeEncoder motorEncoder = motorSpark.getEncoder();
+  private final RelativeEncoder motorEncoder;// = motorSpark.getEncoder();
   
 
   
@@ -62,22 +63,19 @@ public class DriveSubSystem extends SubsystemBase
     SmartDashboard.putNumber("PID/Max Output", kMaxOutput);
     SmartDashboard.putNumber("PID/Min Output", kMinOutput);
 
-    //Instantiate the CANSparkMax object
-    //motorSpark = new SparkMax(DriveConstants.motorSparkId,MotorType.kBrushless);
-    
-    //Instantiate the SparkClosedLoopConfig object
-    //m_pidController = motorSpark.getClosedLoopController();
+     //Instantiate a new CANSparkMax object
+    motorSpark  = new SparkMax(DriveConstants.motorSparkId,MotorType.kBrushless);
 
-      /**
-       * The RestoreFactoryDefaults method can be used to reset the configuration parameters
-       * in the SPARK MAX to their factory default state. If no argument is passed, these
-       * parameters will not persist between power cycles
-       */
-    
+    //Instantiate a new SparkMaxConfig object
+    globalConfig = new SparkMaxConfig();
 
-      // Encoder object created to display position values
-     // motorEncoder = motorSpark.getEncoder();
-      
+    //Instantiate a new SparkClosedLoopConfig object
+    m_pidController = motorSpark.getClosedLoopController();
+    
+    //Instantiate  a new RelativeEncoder object
+    motorEncoder = motorSpark.getEncoder();
+
+    
 
       /**
        * In order to use PID functionality for a controller, a SparkPIDController object
@@ -123,6 +121,11 @@ public class DriveSubSystem extends SubsystemBase
     // Configure encoder 
     globalConfig.encoder
                 .velocityConversionFactor(1.0) // 1/7.5 is the conversion factor for RPM to encoder units
+                                                      //RPM = 7.25 * encoder units per second
+                                                      //Rot2Degrees = 360.0*GearRatio = 360.0 * 7.25
+                                                      //RPM2DegreesPerSecond = 360.0 * 7.25 / 60.0
+                                                      //RPM2Degrees= 360.0 * 7.25 / 60.0 / 60.0
+                                                      //RPM
                 .positionConversionFactor(360.0/7.25);  // // 360/7.25 is the conversion factor for degrees to encoder units
 
     // Configure PID coefficients for slot 0
@@ -137,19 +140,19 @@ public class DriveSubSystem extends SubsystemBase
     
     // Configure PID coefficients slot 1 for motion control
     globalConfig.closedLoop
-              .p(0.00065, ClosedLoopSlot.kSlot1)
-              .i(kI, ClosedLoopSlot.kSlot1)
-              .d(kD,  ClosedLoopSlot.kSlot1)
-              .velocityFF(kFF, ClosedLoopSlot.kSlot1)
-              .maxOutput(kMaxOutput,ClosedLoopSlot.kSlot1)
-              .minOutput(kMinOutput,ClosedLoopSlot.kSlot1);
+                .p(0.00065, ClosedLoopSlot.kSlot1)
+                .i(kI, ClosedLoopSlot.kSlot1)
+                .d(kD,  ClosedLoopSlot.kSlot1)
+                .velocityFF(kFF, ClosedLoopSlot.kSlot1)
+                .maxOutput(kMaxOutput,ClosedLoopSlot.kSlot1)
+                .minOutput(kMinOutput,ClosedLoopSlot.kSlot1);
 
-    //Max motion config
+    MAXMotionConfig maxMotionConfig = globalConfig.closedLoop.maxMotion;
     // Set MAXMotion parameters for position control. We need to pass
     // a closed loop slot to the maxMotion method to set the parameters for that slot.
     // In this case, we are setting the parameters for slot 0.
     // Set MAXMotion parameters for velocity control in slot 1
-    globalConfig.closedLoop.maxMotion
+    maxMotionConfig
                 .positionMode(MAXMotionPositionMode.kMAXMotionTrapezoidal,ClosedLoopSlot.kSlot1)
                 .maxAcceleration(41325,ClosedLoopSlot.kSlot1)
                 .maxVelocity(41325,ClosedLoopSlot.kSlot1)
