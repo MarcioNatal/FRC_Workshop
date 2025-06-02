@@ -53,7 +53,7 @@ public class RobotContainer
    
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-    m_driverController.a().whileTrue(new InstantCommand (drive::resetEncoder));
+    m_driverController.start().whileTrue(new InstantCommand (drive::resetEncoder));
     
     //Motor Position control using pid controller
     m_driverController.b().whileTrue(new DriveCommand(true));

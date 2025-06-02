@@ -120,27 +120,22 @@ public class DriveSubSystem extends SubsystemBase
 
     // Configure encoder 
     globalConfig.encoder
-                .velocityConversionFactor(1.0) // 1/7.5 is the conversion factor for RPM to encoder units
-                                                      //RPM = 7.25 * encoder units per second
-                                                      //Rot2Degrees = 360.0*GearRatio = 360.0 * 7.25
-                                                      //RPM2DegreesPerSecond = 360.0 * 7.25 / 60.0
-                                                      //RPM2Degrees= 360.0 * 7.25 / 60.0 / 60.0
-                                                      //RPM
-                .positionConversionFactor(360.0/7.25);  // // 360/7.25 is the conversion factor for degrees to encoder units
+                .velocityConversionFactor(6) // Velocity in Degrees/sec = 360degrees/60sec = 6                                                     
+                .positionConversionFactor(360.0/7.25);  //360/7.25 is the conversion factor for degrees to encoder units
 
     // Configure PID coefficients for slot 0
     globalConfig.closedLoop
                 .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-                .p(0.006)
+                .p(0.0065)
                 .i(kI)
                 .d(kD)
-                .velocityFF(1/473)
+                .velocityFF(kFF)
                 .positionWrappingEnabled(true)
                 .positionWrappingInputRange(0,360);
     
     // Configure PID coefficients slot 1 for motion control
     globalConfig.closedLoop
-                .p(0.00065, ClosedLoopSlot.kSlot1)
+                .p(0.0065, ClosedLoopSlot.kSlot1)
                 .i(kI, ClosedLoopSlot.kSlot1)
                 .d(kD,  ClosedLoopSlot.kSlot1)
                 .velocityFF(kFF, ClosedLoopSlot.kSlot1)
@@ -154,9 +149,10 @@ public class DriveSubSystem extends SubsystemBase
     // Set MAXMotion parameters for velocity control in slot 1
     maxMotionConfig
                 .positionMode(MAXMotionPositionMode.kMAXMotionTrapezoidal,ClosedLoopSlot.kSlot1)
-                .maxAcceleration(41325,ClosedLoopSlot.kSlot1)
-                .maxVelocity(41325,ClosedLoopSlot.kSlot1)
-                .allowedClosedLoopError(0.0005,ClosedLoopSlot.kSlot1);//2 degrees error
+                .maxAcceleration(34200,ClosedLoopSlot.kSlot1)
+                .maxVelocity(34200,ClosedLoopSlot.kSlot1) //Degrees/sec = (MotorRPM/60) *360degrees
+                                                                      //Degrees/sec = (5700/60) * 360 = 34200 degrees/sec
+                .allowedClosedLoopError(0.85,ClosedLoopSlot.kSlot1);//degrees error
 
     
 
