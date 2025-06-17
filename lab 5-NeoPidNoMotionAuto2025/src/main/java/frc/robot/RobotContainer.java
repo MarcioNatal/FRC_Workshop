@@ -10,9 +10,12 @@ import frc.robot.commands.AutoPositionCmd;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.DriveNoPidCmd;
 import frc.robot.subsystems.DriveSubSystem;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -82,7 +85,33 @@ public class RobotContainer
    */
   public Command getAutonomousCommand() 
   {
+    
     // An example command will be run in autonomous
-    return null;
+    return new SequentialCommandGroup
+    (
+      new InstantCommand(() -> SmartDashboard.getNumber("Position1", 0.0)),
+      new InstantCommand(() -> SmartDashboard.getNumber("Position2", 0.0)),
+      new InstantCommand(() -> SmartDashboard.getNumber("Position3", 0.0)),
+      
+      new InstantCommand(drive::resetEncoder),
+      
+      new RunCommand (() -> drive.driveToPosition(SmartDashboard.getNumber("Position1", 0.0), false), drive)//mode = true for Motion Control otherwise false for PID
+                                  .until(()->drive.getMotorPosition()>=SmartDashboard.getNumber("Position1", 0.0)),
+
+      new WaitCommand(0.5),
+
+      new RunCommand (() -> drive.driveToPosition(SmartDashboard.getNumber("Position2", 0.0), false), drive)//mode = true for Motion Control otherwise false for PID
+                                  .until(()->drive.getMotorPosition()>=SmartDashboard.getNumber("Position2", 0.0)),
+
+      new WaitCommand(1.0),
+
+      new RunCommand (() -> drive.driveToPosition(SmartDashboard.getNumber("Position3", 0.0), false), drive)//mode = true for Motion Control otherwise false for PID
+                                  .until(()->drive.getMotorPosition()>=SmartDashboard.getNumber("Position3", 0.0)),
+
+      new WaitCommand(0.5),
+
+      new RunCommand (() -> drive.driveToPosition(0.0, false), drive)//mode = true for Motion Control otherwise false for PID
+                                  .until(()->drive.getMotorPosition()<=0.0)
+    );
   }
 }
